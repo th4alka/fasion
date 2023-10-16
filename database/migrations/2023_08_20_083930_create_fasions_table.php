@@ -18,7 +18,7 @@ return new class extends Migration
             $table->integer('bunrui');
             $table->integer('color');
             $table->integer('brand');
-            // $table->string('file_name');
+            $table->string('path');
             $table->timestamps();
         });
     }

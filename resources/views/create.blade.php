@@ -13,7 +13,7 @@
 </div>
  
 <div style="text-align:right;">
-<form action="{{ route('fasion.store') }}" method="POST">
+<form action="{{ route('fasion.store') }}" method="POST" enctype="multipart/form-data">
     @csrf
      
      <div class="row">

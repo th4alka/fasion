@@ -68,15 +68,27 @@ class FasionController extends Controller
             'bunrui' =>'required|integer',
             'color' =>'required|integer',
             'brand' =>'required|integer',
+            'img'   =>'required',
         ]);
 
         $fasion = new Fasion;
+
+        $path = $request->img->store('public');
+        
+        // $image = [
+        //     'path'  => basename($path)
+        // ];
+        $path = basename($path);
+        // \DB::table('fasions')->insert($image);
+        // $fasions = \App\Image::all();
+
+        
         $fasion->name = $request->input(["name"]);
         $fasion->kakaku = $request->input(["kakaku"]);
         $fasion->bunrui = $request->input(["bunrui"]);
         $fasion->color = $request->input(["color"]);
         $fasion->brand = $request->input(["brand"]);
-        // $fasion->img = $request->input(["img"]);
+        $fasion->path = $path;
         $fasion->save();
 
         return redirect()->route('fasion.index')

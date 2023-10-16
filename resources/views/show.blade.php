@@ -46,11 +46,13 @@
                 @endforeach         
             </div>
         </div>
-        <!-- <div class="col-12 mb-2 mt-2">
+
+        <div class="col-12 mb-2 mt-2">
             <div class="form-group">
-                {{ $fasion->img }}                
+                <img src="{{ asset( '/storage/'.$fasion->path )}}">
             </div>
-        </div> -->
+        </div>
+        
     </div>
 
 </div>
