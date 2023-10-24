@@ -13,7 +13,7 @@
 </div>
  
 <div style="text-align:right;">
-<form action="{{ route('fasion.update',$fasion->id) }}" method="POST">
+<form action="{{ route('fasion.update',$fasion->id) }}" method="POST" enctype="multipart/form-data">
     @method('PUT')
     @csrf
      
@@ -77,14 +77,14 @@
             </div>
         </div>
 
-        <!-- <div class="col-12 mb-2 mt-2">
+        <div class="col-12 mb-2 mt-2">
             <div class="form-group">
                 <input type="file" name="img" class="form-control" placeholder="画像">
                 @error('img')
                 <span style="color:red">画像を選択してください</span>
                 @enderror
             </div>
-        </div> -->
+        </div>
 
         <div class="col-12 mb-2 mt-2">
                 <button type="submit" class="btn btn-primary w-100">変更</button>

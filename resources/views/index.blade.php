@@ -1,6 +1,7 @@
 @extends('app')
-  
+
 @section('content')
+<script src="https://code.jquery.com/jquery-3.3.1.js"></script>
     <div class="row">
         <div class="col-lg-12">
             <div class="text-left">
@@ -11,6 +12,15 @@
             </div>
         </div>
     </div>
+
+    <form id="form" action="{{ route('fasion.index') }}">
+        <select name="select" id="select">
+            <option value="a" >指定なし</option>
+            <option value="b" >価格が低い順</option>
+            <option value="c" >価格が高い順</option>
+        </select>
+    </form>
+
     <div class="row">
         <div class="col-lg-12">
             @if($message = Session::get('success'))
@@ -18,8 +28,28 @@
             @endif
         </div>
     </div>
+
+    @foreach ($fasions as $fasion)
+    <tr>
+        <td><a class="" href="{{route('fasion.show',$fasion->id)}}?page_id={{$page_id}}">{{ $fasion->name }}</a></td>
+        <td style="text-align:right">{{ $fasion->kakaku }}円</td>
+        <td>
+            <div>
+                <img src="{{ asset( '/storage/'.$fasion->path )}}">
+            </div>
+        </td>
+    </tr>
+    @endforeach
     
-    <table class="table table-bordered">
+    <script>
+        $(function() {
+            $('#select').change(function () {
+                $('#form').submit();
+            });
+        });
+    </script>
+
+    <!-- <table class="table table-bordered">
         <tr>
             <th>No</th>
             <th>名前</th>
@@ -50,8 +80,8 @@
             </td>
         </tr>
         @endforeach
-    </table>
+    </table> -->
 
-    {!! $fasions->links('pagination::bootstrap-5') !!}
+    
 
 @endsection

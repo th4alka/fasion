@@ -13,8 +13,9 @@ class FasionController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
+
         //$fasions = Fasion::latest()->paginate(5);
         $fasions = Fasion::select([
             'f.id',
@@ -23,7 +24,7 @@ class FasionController extends Controller
             'r.str as bunrui',
             'c.str as color',
             'b.str as brand',
-            // 'f.img'
+            'f.path'
         ])
         ->from('fasions as f')
         ->join('bunruis as r',function($join){
@@ -37,7 +38,29 @@ class FasionController extends Controller
         })
         ->orderBy('f.id','DESC')
         ->paginate(5);
-        return view('index',compact('fasions'))
+
+        $select = $request->select;
+
+        switch ($select) {
+            case 'a':
+                
+                $fasions = fasion::get();
+                break;
+            case 'b':
+                
+                $fasions = fasion::orderBy('kakaku', 'asc')->get();
+                break;
+            case 'c':
+                
+                $fasions = fasion::orderBy('kakaku', 'desc')->get();
+                break;
+            default :
+                
+                $fasions = fasion::get();
+                break;
+        }
+
+        return view('index',compact('fasions','select'))
             ->with('page_id',request()->page)
             ->with('i',(request()->input('page',1)-1)*5);
     }
@@ -74,15 +97,9 @@ class FasionController extends Controller
         $fasion = new Fasion;
 
         $path = $request->img->store('public');
-        
-        // $image = [
-        //     'path'  => basename($path)
-        // ];
-        $path = basename($path);
-        // \DB::table('fasions')->insert($image);
-        // $fasions = \App\Image::all();
 
-        
+        $path = basename($path);
+
         $fasion->name = $request->input(["name"]);
         $fasion->kakaku = $request->input(["kakaku"]);
         $fasion->bunrui = $request->input(["bunrui"]);
@@ -136,14 +153,21 @@ class FasionController extends Controller
             'bunrui' =>'required|integer',
             'color' =>'required|integer',
             'brand' =>'required|integer',
+            'img'   =>'required',
         ]);
+
+        // $fasion = new Fasion;
+
+        $path = $request->img->store('public');
+        
+        $path = basename($path);
 
         $fasion->name = $request->input(["name"]);
         $fasion->kakaku = $request->input(["kakaku"]);
         $fasion->bunrui = $request->input(["bunrui"]);
         $fasion->color = $request->input(["color"]);
         $fasion->brand = $request->input(["brand"]);
-        // $fasion->img = $request->input(["img"]);
+        $fasion->path = $path;
         $fasion->save();
 
         return redirect()->route('fasion.index')

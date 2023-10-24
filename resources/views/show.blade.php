@@ -52,6 +52,18 @@
                 <img src="{{ asset( '/storage/'.$fasion->path )}}">
             </div>
         </div>
+
+        <td style="text-align:center">
+                <a class="btn btn-primary" href="{{route('fasion.edit',$fasion->id)}}?page_id={{$page_id}}">変更</a>
+        </td>
+
+        <td style="text-align:center">
+            <form action="{{route('fasion.destroy',$fasion->id)}}"method="POST">
+                @csrf
+                @method('DELETE')
+                <button type="submit" class="btn btn-sm btn-danger" onclick='return confirm("削除しますか");'>削除</button>
+            </form>
+        </td>
         
     </div>
 
